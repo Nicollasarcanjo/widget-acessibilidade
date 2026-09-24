@@ -1,0 +1,4 @@
+interface:
+  display_name: "Acessibilidade"
+  short_description: "Audita acessibilidade e cria relatório"
+  default_prompt: "Use $acessibilidade para auditar este app e gerar um relatório priorizado."

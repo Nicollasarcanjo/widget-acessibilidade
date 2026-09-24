@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test widget/tests/*.test.mjs widget/assets/graph-scanner/test/cli.test.js widget/assets/graph-scanner/test/extension.test.js"
+    "test": "node --test widget/tests/*.test.mjs acessibilidade/tests/*.test.mjs widget/assets/graph-scanner/test/cli.test.js widget/assets/graph-scanner/test/extension.test.js"
   }
 }
