@@ -1,0 +1,7 @@
+interface:
+  display_name: "Widget"
+  short_description: "Scan an app and add its accessibility widget"
+  brand_color: "#2563EB"
+  default_prompt: "Use $widget to scan this app, map its screens and safe navigation controls, and integrate the accessibility widget."
+policy:
+  allow_implicit_invocation: true

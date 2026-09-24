@@ -1,0 +1,31 @@
+{
+  "name": "@acessibility/graph-scanner",
+  "version": "0.1.0",
+  "description": "Graphify-based screen and navigation graph scanner for Skip AI",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "graph-scanner": "./bin/graph-scanner.js"
+  },
+  "files": [
+    "bin/",
+    "engine/",
+    "extension/",
+    "skill/",
+    "vendor/graphify/",
+    "README.md",
+    "LICENSE",
+    "LICENSE-MIT",
+    "NOTICE",
+    "UPSTREAM.md",
+    "!**/__pycache__/**",
+    "!**/*.pyc",
+    "!**/*.pyo"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

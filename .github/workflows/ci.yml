@@ -1,0 +1,24 @@
+name: Skill CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install scanner runtime and engine dependencies
+        run: python -m pip install uv "networkx>=3.4,<4" "tree-sitter>=0.23,<0.26" "tree-sitter-typescript>=0.23,<0.25" "tree-sitter-javascript>=0.23,<0.26"
+      - name: Run skill and extension tests
+        run: npm test
+      - name: Run Graphify-based route scanner tests
+        run: python widget/assets/graph-scanner/test/scanner.test.py

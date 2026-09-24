@@ -1,0 +1,9 @@
+{
+  "name": "widget-acessibilidade-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test widget/tests/*.test.mjs widget/assets/graph-scanner/test/cli.test.js widget/assets/graph-scanner/test/extension.test.js"
+  }
+}

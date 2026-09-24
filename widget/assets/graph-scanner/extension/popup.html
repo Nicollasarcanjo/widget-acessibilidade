@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Skip Graph Scanner</title>
+    <style>
+      body { width: 320px; margin: 0; padding: 18px; color: #172033; font: 14px/1.45 system-ui, sans-serif; }
+      h1 { margin: 0 0 14px; font-size: 17px; }
+      label { display: block; margin: 10px 0 4px; font-size: 12px; font-weight: 650; }
+      input { box-sizing: border-box; width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px; }
+      button { margin-top: 14px; width: 100%; border: 0; border-radius: 8px; padding: 10px; color: white; background: #5b4be8; font-weight: 650; cursor: pointer; }
+      p { margin: 10px 0 0; color: #526078; font-size: 12px; }
+      #status { min-height: 18px; }
+    </style>
+  </head>
+  <body>
+    <h1>Capturar mapa de telas</h1>
+    <label for="server">CLI local</label>
+    <input id="server" value="http://127.0.0.1:43127" />
+    <label for="code">Código do CLI</label>
+    <input id="code" autocomplete="off" />
+    <label for="app">URL inicial autenticada</label>
+    <input id="app" placeholder="https://app.exemplo.com" />
+    <button id="start">Iniciar varredura</button>
+    <p>A extensão abre uma aba própria, percorre até 80 rotas conhecidas e não envia valores digitados em campos.</p>
+    <p id="status" role="status"></p>
+    <script src="popup.js"></script>
+  </body>
+</html>

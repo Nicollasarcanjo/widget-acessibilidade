@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Skip Graph Scanner",
+  "version": "0.1.0",
+  "description": "Captures authenticated screens and controls for the Skip screen graph.",
+  "permissions": ["tabs", "scripting", "storage"],
+  "host_permissions": ["http://127.0.0.1:43127/*", "http://localhost:43127/*"],
+  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "action": { "default_popup": "popup.html", "default_title": "Skip Graph Scanner" },
+  "background": { "service_worker": "service-worker.js", "type": "module" }
+}

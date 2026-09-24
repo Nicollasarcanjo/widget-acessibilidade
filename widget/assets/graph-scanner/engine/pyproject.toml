@@ -1,0 +1,14 @@
+[project]
+name = "skip-graph-scanner-engine"
+version = "0.1.0"
+description = "Deterministic UI graph extraction using the vendored Graphify graph engine"
+requires-python = ">=3.10"
+dependencies = [
+  "networkx>=3.4,<4",
+  "tree-sitter>=0.23,<0.26",
+  "tree-sitter-typescript>=0.23,<0.25",
+  "tree-sitter-javascript>=0.23,<0.26",
+]
+
+[tool.uv]
+package = false
