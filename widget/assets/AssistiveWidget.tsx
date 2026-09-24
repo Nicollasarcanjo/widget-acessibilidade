@@ -54,14 +54,7 @@ export function AssistiveWidget() {
   const record = (text: string) => { setHistoryItems((items) => [text, ...items].slice(0, 12)); setMessage(text) }
 
   useEffect(() => {
-    void fetch(new URL('/widget-screen-map.json', window.location.origin))
-      .then((response) => response.ok ? response.json() : null)
-      .then((map) => {
-        if (!map?.screens || typeof map.screens !== 'object') return
-        const existing = JSON.parse(localStorage.getItem('skip-screen-map-v1') || '{}')
-        localStorage.setItem('skip-screen-map-v1', JSON.stringify({ ...map.screens, ...existing }))
-      })
-      .catch(() => undefined)
+    void loadLocalScreenMap()
   }, [])
 
   useEffect(() => {
@@ -186,7 +179,7 @@ export function AssistiveWidget() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ transcript: command, path: window.location.pathname, url: window.location.href }),
         }).then((res) => res.json())
-        : findLocalNavigation(command, `${window.location.pathname}${window.location.search}`)
+        : (await loadLocalScreenMap(), findLocalNavigation(command, `${window.location.pathname}${window.location.search}`))
       if (data.action === 'READ') { speak(); return }
       if (data.action === 'SETTINGS' && /contraste/.test(normalized)) { setContrast((v) => !v); return }
       if (data.action === 'NAVIGATE') {
@@ -322,6 +315,17 @@ function findLocalNavigation(command: string, currentPath: string): any {
 
 function normalizeNavigationText(value: string): string {
   return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9/ ]/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+async function loadLocalScreenMap() {
+  try {
+    const response = await fetch(new URL('/widget-screen-map.json', window.location.origin))
+    if (!response.ok) return
+    const map = await response.json()
+    if (!map?.screens || typeof map.screens !== 'object') return
+    const existing = JSON.parse(localStorage.getItem('skip-screen-map-v1') || '{}')
+    localStorage.setItem('skip-screen-map-v1', JSON.stringify({ ...map.screens, ...existing }))
+  } catch { /* the app can still use the map observed in the browser */ }
 }
 
 // Localiza um elemento do DOM a partir de uma entidade retornada pelo motor NLU
