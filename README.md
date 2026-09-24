@@ -93,6 +93,10 @@ O scanner contém componentes de terceiros, incluindo Graphify e axe-core, cada 
 
 Sugestões, relatos de uso, correções de documentação, traduções e pull requests são bem-vindos. Ao contribuir, descreva o problema, o comportamento esperado e como a mudança pode ser verificada.
 
+## Divulgue o projeto
+
+O card e um texto pronto para compartilhar estão em [`DIVULGACAO.md`](DIVULGACAO.md).
+
 ## Links
 
 - Repositório e issues: <https://github.com/nicollasarcanjo/widget-acessibilidade>
