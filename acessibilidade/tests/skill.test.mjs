@@ -21,13 +21,16 @@ test("/acessibilidade skill includes its audit method and report template", () =
   assert.match(template, /## Matriz WCAG 2\.2 A\/AA/);
 });
 
-test("repository describes both commands and the noncommercial license", () => {
+test("repository describes both commands and permits commercial integration", () => {
   const repositoryReadme = fs.readFileSync(path.join(root, "..", "README.md"), "utf8");
   const license = fs.readFileSync(path.join(root, "..", "LICENSE"), "utf8");
 
   assert.match(repositoryReadme, /`\/widget`/);
   assert.match(repositoryReadme, /`\/acessibilidade`/);
-  assert.match(repositoryReadme, /PolyForm Noncommercial 1\.0\.0/);
-  assert.match(license, /PolyForm Noncommercial License 1\.0\.0/);
+  assert.match(repositoryReadme, /integrados gratuitamente em produtos e serviços monetizados/i);
+  assert.match(repositoryReadme, /produtos independentes/);
+  assert.match(license, /O uso comercial integrado é permitido sem autorização escrita prévia/);
+  assert.match(license, /plano pago ou receita no produto hospedeiro/);
+  assert.doesNotMatch(license, /PolyForm Noncommercial/);
   assert.match(license, /Required Notice: Copyright \(c\) 2026 nicollasarcanjo/);
 });

@@ -87,7 +87,7 @@ Pull requests e pushes executam verificações automatizadas das skills, do scan
 
 ## Licença e contribuições
 
-O desenvolvimento e as contribuições são públicos. O código original do projeto é gratuito para usos não comerciais permitidos pela **PolyForm Noncommercial 1.0.0**. Uso comercial ou monetização não são permitidos sem autorização escrita do titular. Essa licença não é aprovada pela OSI como licença open source; consulte [`LICENSE`](LICENSE) antes de reutilizar.
+O código e as skills podem ser integrados gratuitamente em produtos e serviços monetizados, inclusive apps com cobrança e planos pagos. A única restrição comercial é não vender, licenciar ou cobrar separadamente pelo widget ou pelas skills como produtos independentes cujo valor principal seja o próprio projeto. Esta licença customizada não é uma licença padrão aprovada pela OSI; consulte [`LICENSE`](LICENSE) antes de reutilizar.
 
 O scanner contém componentes de terceiros, incluindo Graphify e axe-core, cada um com seus próprios avisos e licenças. Eles permanecem em `widget/assets/graph-scanner/`; a licença deste projeto não substitui as licenças desses componentes.
 

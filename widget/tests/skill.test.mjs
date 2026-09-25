@@ -37,6 +37,12 @@ test('the install command adds the component and preserves existing user files',
     const first = spawnSync(process.execPath, [installer, project], { encoding: 'utf8' })
     assert.equal(first.status, 0, first.stderr)
     assert.equal(fs.readFileSync(target, 'utf8'), fs.readFileSync(path.join(repoRoot, 'widget', 'assets', 'AssistiveWidget.tsx'), 'utf8'))
+    assert.equal(fs.readFileSync(path.join(project, 'ACCESSIBILITY-WIDGET-LICENSE'), 'utf8'), fs.readFileSync(path.join(repoRoot, 'widget', 'LICENSE'), 'utf8'))
+
+    fs.writeFileSync(path.join(project, 'ACCESSIBILITY-WIDGET-LICENSE'), 'PolyForm Noncommercial License 1.0.0\n\nRequired Notice: Copyright (c) 2026 nicollasarcanjo (https://nicollas.heso.com.br)\n\nOld widget terms')
+    const migration = spawnSync(process.execPath, [installer, project], { encoding: 'utf8' })
+    assert.equal(migration.status, 0, migration.stderr)
+    assert.equal(fs.readFileSync(path.join(project, 'ACCESSIBILITY-WIDGET-LICENSE'), 'utf8'), fs.readFileSync(path.join(repoRoot, 'widget', 'LICENSE'), 'utf8'))
 
     const second = spawnSync(process.execPath, [installer, project], { encoding: 'utf8' })
     assert.equal(second.status, 0, second.stderr)
@@ -47,6 +53,16 @@ test('the install command adds the component and preserves existing user files',
   } finally {
     fs.rmSync(project, { recursive: true, force: true })
   }
+})
+
+test('license permits paid host apps but prohibits selling the project as an independent product', () => {
+  const skill = fs.readFileSync(path.join(repoRoot, 'widget', 'SKILL.md'), 'utf8')
+  const license = fs.readFileSync(path.join(repoRoot, 'widget', 'LICENSE'), 'utf8')
+  assert.match(skill, /Do not block or defer installation because the host app has billing/)
+  assert.match(license, /O uso comercial integrado é permitido sem autorização escrita prévia/)
+  assert.match(license, /plano pago ou receita no produto hospedeiro/)
+  assert.match(license, /vender, licenciar ou cobrar separadamente/)
+  assert.doesNotMatch(license, /PolyForm Noncommercial/)
 })
 
 test('the package includes Graphify and axe-core attribution', () => {

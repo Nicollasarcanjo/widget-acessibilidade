@@ -1,15 +1,29 @@
-PolyForm Noncommercial License 1.0.0
-
-This project is licensed under the PolyForm Noncommercial License 1.0.0.
-The complete license terms are available at:
-https://polyformproject.org/licenses/noncommercial/1.0.0
+Acesso em Comum — Licença de Integração com Restrição de Venda Independente 1.0
 
 Required Notice: Copyright (c) 2026 nicollasarcanjo (https://nicollas.heso.com.br)
 
-## FREE NONCOMMERCIAL USE — MONETIZATION PROHIBITED
+Esta licença cobre o código original e as skills deste repositório. Componentes de terceiros, incluindo Graphify e axe-core, permanecem sujeitos às respectivas licenças e avisos.
 
-You may use, copy, modify, and distribute this project's original software at no cost only for noncommercial purposes permitted by the PolyForm Noncommercial License 1.0.0.
+1. Permissão de uso e integração
 
-You may not directly or indirectly monetize this software or the widget/skill built from it. Prohibited uses include selling or reselling it; charging for a license, access, subscription, or service that includes it; placing it behind a paywall; embedding or bundling it in a paid or revenue-generating product or service; or using it to provide a paid service. Any commercial or monetized use requires separate written permission from the copyright holder in advance.
+É concedida uma licença gratuita, mundial e não exclusiva para usar, copiar, modificar e distribuir o código e as skills deste projeto, desde que este aviso e os termos desta licença acompanhem as cópias.
 
-This restriction applies to the project's original code and the combined widget/skill. Third-party components retain their own licenses and notices; those licenses do not grant permission to monetize this project's original code or the combined widget/skill.
+O uso comercial integrado é permitido sem autorização escrita prévia. Você pode incorporar o widget em uma aplicação, site, plataforma, produto ou serviço pago; oferecer planos, assinaturas e telas de cobrança ou troca de plano; e cobrar pelo produto ou serviço hospedeiro como um todo. Também pode cobrar por desenvolvimento, integração, personalização, hospedagem, manutenção, suporte e auditorias realizadas com estas ferramentas.
+
+2. Restrição de venda independente
+
+Sem autorização escrita do titular, não é permitido vender, licenciar ou cobrar separadamente pelo download, acesso ou uso do widget ou das skills deste projeto como produto independente, nem oferecer uma versão reempacotada ou derivada cujo principal valor comercial seja fornecer este widget ou estas skills por si sós.
+
+Esta restrição não impede a cobrança pelo produto ou serviço hospedeiro quando o widget estiver integrado como uma funcionalidade desse produto ou serviço. O widget não precisa ser removido de aplicações monetizadas, e a existência de cobrança, assinatura, plano pago ou receita no produto hospedeiro, por si só, não viola esta licença.
+
+3. Redistribuição e avisos
+
+Ao distribuir cópias ou modificações, mantenha este arquivo e o aviso de copyright. Identifique de forma razoável as modificações feitas. Esta licença não transfere marcas, nomes comerciais ou outros direitos que não estejam expressamente concedidos.
+
+4. Componentes de terceiros
+
+A restrição de venda independente desta licença aplica-se ao código original e às skills do Acesso em Comum. Componentes de terceiros continuam disponíveis sob seus próprios termos. Preserve os respectivos arquivos de licença e avisos; esta licença não altera nem substitui esses termos.
+
+5. Garantia
+
+O software é fornecido “no estado em que se encontra”, sem garantias, na máxima extensão permitida pela lei aplicável. O titular não será responsável por danos decorrentes do uso do software, na máxima extensão permitida por lei.

@@ -38,3 +38,7 @@ Run this workflow in the user's current application repository. The skill reposi
 - Only replace `public/widget-screen-map.json` when its `generator` field is `widget-acessibilidade`. Preserve a pre-existing file owned by the application and explain the conflict.
 - Source-derived and browser-observed evidence must remain distinguishable. Never claim that static analysis performed a runtime WCAG audit.
 - The bundled Chrome extension visits only known same-origin routes and does not submit forms or click unknown controls. Respect the user's existing authentication and application access.
+
+## License decision
+
+Commercial integration is permitted. Do not block or defer installation because the host app has billing, subscriptions, paid plans, or revenue. The widget may be included as a feature in monetized apps and services without prior written authorization. Written authorization is only needed to sell, license, or charge separately for the widget or skills as independent products whose main value is the project itself. Keep `ACCESSIBILITY-WIDGET-LICENSE` with the installed component and preserve third-party notices.

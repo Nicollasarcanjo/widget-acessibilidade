@@ -17,4 +17,4 @@ O projeto está aberto à colaboração. Feedback, ideias, documentação, teste
 
 **Conheça e contribua no GitHub:** <https://github.com/nicollasarcanjo/widget-acessibilidade>
 
-A licença atual do código original permite uso não comercial; os detalhes estão no [`README`](README.md#licença-e-contribuições).
+O uso integrado em produtos e serviços monetizados é permitido. A restrição é não vender ou cobrar separadamente pelo widget como produto independente; veja os termos em [`LICENSE`](LICENSE).
