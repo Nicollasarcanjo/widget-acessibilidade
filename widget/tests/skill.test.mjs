@@ -27,6 +27,43 @@ test('turns scanner entities and directed navigation edges into the widget map',
   assert.equal(result.generator, 'widget-acessibilidade')
   assert.deepEqual(result.screens['/'].actions, [{ name: 'Configurações', targetRoute: '/settings', selector: '#settings-link' }])
   assert.deepEqual(result.screens['/settings'].actions, [])
+  assert.equal(result.catalog.screens.find((screen) => screen.id === 'settings').name, 'Configurações')
+  assert.equal(result.catalog.actions.find((action) => action.id === 'link').confirmed, true)
+  assert.equal(result.screens['/settings'].controls.find((control) => control.name === 'Salvar').kind, 'action')
+})
+
+test('catalogs dialog openers and form controls without treating them as navigation links', () => {
+  const map = buildWidgetMap({
+    entities: [
+      { id: 'home', type: 'ROUTE', name: 'Início', path: '/' },
+      { id: 'dialog', type: 'UI_STATE', name: 'Nova ficha', path: '/', metadata: { kind: 'dialog' } },
+      { id: 'open', type: 'COMPONENT', name: 'Nova ficha', route: '/', metadata: { kind: 'open-state', dialogOpenConfirmed: true, cssSelector: '#new-record' } },
+      { id: 'field', type: 'COMPONENT', name: 'Nome do cliente', route: '/', metadata: { kind: 'fill', inputName: 'customer' } },
+      { id: 'submit', type: 'COMPONENT', name: 'Salvar', route: '/', metadata: { kind: 'submit', intent: 'submit' } },
+    ],
+    relationships: [
+      { source: 'home', target: 'dialog', type: 'CONTAINS' },
+      { source: 'home', target: 'open', type: 'CONTAINS' },
+      { source: 'open', target: 'dialog', type: 'OPENS' },
+      { source: 'dialog', target: 'field', type: 'CONTAINS' },
+      { source: 'dialog', target: 'submit', type: 'CONTAINS' },
+    ],
+  })
+  assert.ok(map.screens['/'].overlays.some((overlay) => overlay.name === 'Nova ficha'))
+  assert.equal(map.catalog.actions.find((action) => action.id === 'open').confirmedDialogOpener, true)
+  assert.equal(map.catalog.actions.find((action) => action.id === 'field').kind, 'fill')
+  assert.equal(map.catalog.actions.find((action) => action.id === 'submit').kind, 'submit')
+  assert.deepEqual(map.screens['/'].actions, [])
+})
+
+test('the installed widget offers the screen/action catalog and resolves paths locally without an agent backend', () => {
+  const component = fs.readFileSync(path.join(repoRoot, 'widget', 'assets', 'AssistiveWidget.tsx'), 'utf8')
+  assert.match(component, /label: 'Navegar por objetivo'/)
+  assert.match(component, /Ações catalogadas/)
+  assert.match(component, /findLocalNavigation\(command, window\.location\.pathname, targetId, localMap\)/)
+  assert.match(component, /confirmedDialogOpener/)
+  assert.match(component, /action === 'HIGHLIGHT'/)
+  assert.doesNotMatch(component, /Executar próximo passo/)
 })
 
 test('the install command adds the component and preserves existing user files', () => {

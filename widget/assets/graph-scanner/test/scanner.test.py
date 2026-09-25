@@ -33,6 +33,25 @@ class ScannerTests(unittest.TestCase):
             graph_edges = result["graph"].get("edges", [])
             self.assertTrue(graph_edges)
 
+    def test_named_navigation_handlers_connect_existing_screens(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "app" / "settings").mkdir(parents=True)
+            (root / "app" / "page.tsx").write_text('''
+                const goToSettings = () => router.push("/settings")
+                export default function Home() { return <button onClick={goToSettings}>Configurações</button> }
+            ''', encoding="utf-8")
+            (root / "app" / "settings" / "page.tsx").write_text('export default () => <h1>Configurações</h1>', encoding="utf-8")
+            result = scan_project(root)
+            entities = result["sam"]["entities"]
+            relationships = result["sam"]["relationships"]
+            control = next(entity for entity in entities if entity["type"] == "COMPONENT" and entity["name"] == "Configurações")
+            settings = next(entity for entity in entities if entity["type"] == "ROUTE" and entity["path"] == "/settings")
+            self.assertEqual(settings["name"], "Configurações")
+            self.assertIn("Settings", settings["semanticLabels"])
+            self.assertEqual(control["metadata"]["targetRoute"], "/settings")
+            self.assertTrue(any(edge["source"] == control["id"] and edge["target"] == settings["id"] and edge["type"] == "NAVIGATES_TO" for edge in relationships))
+
     def test_app_router_pages_router_and_password_values_are_not_scanned(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -51,6 +70,62 @@ class ScannerTests(unittest.TestCase):
             self.assertNotIn("/api/health", result["routePaths"])
             self.assertNotIn("/_app", result["routePaths"])
             self.assertFalse(any(entity["name"] == "secret" for entity in result["sam"]["entities"]))
+
+    def test_clickable_regions_and_confirmed_dialog_states_are_mapped(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "app").mkdir()
+            (root / "app" / "page.tsx").write_text('''
+                export default function Home() {
+                  const [open, setOpen] = useState(false)
+                  return <main>
+                    <div role="button" data-testid="new-record" onClick={() => setOpen(true)}>Nova ficha</div>
+                    <Dialog role="dialog" aria-label="Nova ficha" open={open}>
+                      <h2>Dados do cliente</h2>
+                      <label>Nome<input name="customer" /></label>
+                      <button type="submit">Salvar</button>
+                    </Dialog>
+                  </main>
+                }
+            ''', encoding="utf-8")
+            result = scan_project(root)
+            entities = result["sam"]["entities"]
+            relationships = result["sam"]["relationships"]
+            route = next(entity for entity in entities if entity["type"] == "ROUTE")
+            state = next(entity for entity in entities if entity["type"] == "UI_STATE")
+            trigger = next(entity for entity in entities if entity["name"] == "Nova ficha" and entity["type"] == "COMPONENT")
+            customer = next(entity for entity in entities if entity["name"] == "customer")
+            submit = next(entity for entity in entities if entity["name"] == "Salvar")
+            self.assertEqual(state["name"], "Nova ficha")
+            self.assertEqual(state["path"], "/")
+            self.assertEqual(state["metadata"]["kind"], "dialog")
+            self.assertTrue(trigger["metadata"]["dialogOpenConfirmed"])
+            self.assertEqual(trigger["metadata"]["uiStateId"], "")
+            self.assertEqual(customer["metadata"]["uiStateId"], state["id"])
+            self.assertEqual(submit["metadata"]["intent"], "submit")
+            self.assertIn({"source": route["id"], "target": state["id"], "type": "CONTAINS", "confidence": 0.9,
+                           "evidence": state["evidence"], "metadata": {"origin": "source-code", "uiState": True}}, relationships)
+            self.assertTrue(any(edge["source"] == trigger["id"] and edge["target"] == state["id"] and edge["type"] == "OPENS" for edge in relationships))
+            self.assertTrue(any(edge["source"] == state["id"] and edge["target"] == customer["id"] and edge["type"] == "CONTAINS" for edge in relationships))
+            self.assertEqual(len(result["modalOpeners"]), 1)
+            self.assertTrue(result["modalOpeners"][0]["confirmed"])
+            self.assertNotIn("value", json.dumps(result["sam"]))
+
+    def test_unconfirmed_event_handler_is_not_added_to_modal_capture_queue(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "pages").mkdir()
+            (root / "pages" / "index.tsx").write_text('''
+                export default function Home() {
+                  const [open, setOpen] = useState(false)
+                  return <><div onClick={handleClick}>Abrir</div><Modal role="dialog" open={open}>Form</Modal></>
+                }
+            ''', encoding="utf-8")
+            result = scan_project(root)
+            self.assertEqual(result["modalOpeners"], [])
+            self.assertEqual(result["modalCandidates"][0]["status"], "not-captured")
+            self.assertEqual(result["sam"]["metadata"]["uncapturedDialogCandidates"][0]["name"], "Abrir")
+            self.assertTrue(any(entity["type"] == "UI_STATE" for entity in result["sam"]["entities"]))
 
 
 if __name__ == "__main__":
